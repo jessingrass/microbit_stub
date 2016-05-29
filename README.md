@@ -77,7 +77,7 @@ The distribution also includes:
 
 Together, the above programs should give some idea of how to use the `microbit_stub` module.
 
-*What is emulated*
+## What is emulated
 
 The module provides an implementation of the following parts of the microbit micropython API:
 
