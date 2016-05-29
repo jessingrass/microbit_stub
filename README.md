@@ -1,7 +1,7 @@
 # microbit_stub
 A Python module that emulates the BBC microbit as defined by the microbit micropython API.
 
-**Note:** any errors in the emulation are entirely due to errors in my program logic or in my understanding of the microbit module API and not the responsibility of the developers of the [microbit micropython API](https://microbit-micropython.readthedocs.io/en/latest/microbit_micropython_api.html "microbit API").
+Any errors in the emulation are entirely due to errors in my program logic or in my understanding of the microbit module API and not the responsibility of the developers of the [microbit micropython API](https://microbit-micropython.readthedocs.io/en/latest/microbit_micropython_api.html "microbit API").
 
 ## Overview
 
@@ -41,7 +41,7 @@ will output a text emulation of scrolling `'hello world!'` across a microbit scr
 
 Apart from the change of module name, the program runs unchanged in either environment.
 
-**Note:** it should be safe to rename this module `microbit` and not cause any conflict with the [Web based](https://www.microbit.co.uk/create-code "Web Python") or [mu](http://codewith.mu/ "mu") editor. On balance, I thought it better to use a different name to distinguish between the two. If you change the name of the `microbit_stub` module to `microbit` (by renaming `microbit_stub.py` to `microbit.py`) then you will not need to change import statements when switching programming environments.
+It should be safe to rename this module `microbit` and not cause any conflict with the [Web based](https://www.microbit.co.uk/create-code "Web Python") or [mu](http://codewith.mu/ "mu") editor. On balance, I thought it better to use a different name to distinguish between the two. If you change the name of the `microbit_stub` module to `microbit` (by renaming `microbit_stub.py` to `microbit.py`) then you will not need to change import statements when switching programming environments.
 
 ## Usage
 
@@ -148,7 +148,7 @@ prints:
 -------
 ```
 
-**Note:** as with the physical microbit, showing a string with runs repeated characters results in superimposition. That is `display.show('hello')` superimposes the 2nd `l` on the first. Scrolling a string with repeated characters shows all characters. 
+As with the physical microbit, showing a string with runs repeated characters results in superimposition. That is `display.show('hello')` superimposes the 2nd `l` on the first. Scrolling a string with repeated characters shows all characters. 
 
 In addition to the implementation of the `microbit` classes and global functions such as `sleep`, `microbit_stub` extends the API with a `State` class and a single `state` instance that represents the state of buttons, pins, and accelerometer x, y and z values. For example, reading from a pin involves reading from a corresponding value of the `state` object. Writing to a pin, changes a corresponding value of the `state` object. See the next section for information on how to use the `state` instance to simulate state changes.
 
