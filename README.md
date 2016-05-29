@@ -1,7 +1,7 @@
 # microbit_stub
 A Python module that emulates the BBC microbit as defined by the microbit micropython API.
 
-**Note:** any errors in the behaviour of the emulation is entirely due to errors in my program logic or in my understanding of the microbit module API and not the responsibility of the micropython microbit API.
+**Note:** any errors in the emulation are entirely due to errors in my program logic or in my understanding of the microbit module API and not the responsibility of the developers of the [microbit micropython API](https://microbit-micropython.readthedocs.io/en/latest/microbit_micropython_api.html "microbit API").
 
 ## Overview
 
