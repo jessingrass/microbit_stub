@@ -17,11 +17,11 @@ If a student develops using the Web based Python editor, feedback with respect t
 
 The offline [mu micropython editor](http://codewith.mu/ "mu") has a REPL shell that, if connected to a microbit, will display error output in the shell and support easier debugging. Even so, there may be some benefit in being able to trace and debug a program without connecting to the physical microbit.
 
-This module supports disconnected program development by emulating most microbit functionality (see the "What is emulated" section of this README for more details). Emulation output is text to the console, which means the module can be used in many programming environments. There is no attempt to do graphical emulation. Providing a graphical interface may be something for the future. It would have the advantage of providing an alternative mechanism for manipulating the emulated state (see the section of this README on "Emulating and changing state" for how this is currently done). As it is, the module allows testing of both the syntax and logic of microbit micropython programs.
+This module supports disconnected program development by emulating most of the microbit's functionality (see the "What is emulated" section of this README for more details). Emulation output is text to the console, which means the module can be used in many programming environments. There is no attempt to do graphical emulation. Providing a graphical interface may be something for the future. It would have the advantage of providing an alternative mechanism for manipulating the emulated state (see the section of this README on "Emulating and changing state" for how this is currently done). As it is, the module allows testing of both the syntax and logic of microbit micropython programs.
 
 The name of the module is `microbit_stub` to distinguish it from the official microbit module
 
-The idea is to be able to take a program written for the `microbit` module and simply change the relevant import statement to import `microbit_stub`. The program can then be tested in a standard Python development environment or at the console. Once the program has been tested it can be copied to the [Web based](https://www.microbit.co.uk/create-code "Web Python") or [mu](http://codewith.mu/ "mu") editor and uploaded to the microbit (after reinstating the `microbit` module import statement). For example, the following Python program developed [in the browser](https://www.microbit.co.uk/create-code "Web Python") or using [mu](http://codewith.mu/ "mu"):
+The above means that you can take a program written for the `microbit` module and simply change the relevant import statement to import `microbit_stub`. The program can then be tested in a standard Python development environment or at the console. Once the program has been tested it can be copied to the [Web based](https://www.microbit.co.uk/create-code "Web Python") or [mu](http://codewith.mu/ "mu") editor and uploaded to the microbit (after reinstating the `microbit` module import statement). For example, the following Python program developed [in the browser](https://www.microbit.co.uk/create-code "Web Python") or using [mu](http://codewith.mu/ "mu"):
 
 ```python
 from microbit import *
@@ -37,7 +37,7 @@ from microbit_stub import *
 display.scroll('hello world!')
 ```
 
-will output a text emulation of scrolling `'hello world!'` in a console window (e.g. the IDLE shell or a terminal window).
+will output a text emulation of scrolling `'hello world!'` in a console window (e.g. the IDLE shell or console of some other IDE or a terminal window).
 
 Apart from the change of module name, the program runs unchanged in the different environments.
 
@@ -75,18 +75,20 @@ The distribution also includes:
 
 `pressbutton_withreset.py` - this is similar to `pressbutton.py` but resets the state of the microbit after 100 button presses and then exits. This is also for testing purposes.
 
-Together, the above programs should give some idea of how to use the `microbit_stub` module.
+The above programs should give some idea of how to use the `microbit_stub` module. 
 
 ## What is emulated
 
 The module provides an implementation of the following parts of the microbit micropython API:
 
 ```python
+# global functions
 sleep
 running_time
 panic
 reset
 
+# classes
 Button
 Image   # including built-in images
 Display
@@ -99,7 +101,7 @@ The `I2C` and `UART` classes and methods are defined but the implementation of m
 
 Internally, images are stored as a 5x5 list of lists of microbit pixel values. The values are in the range 0 to 9 corresponding to the microbit pixel intensity values. 
 
-The display of an image is a text border around 5 characters of text that represent each row of the microbit display. 0s are represented by a space and other pixel values by their intensity. For example, the following program:
+The display of an image is a text border around 5 characters that represent each row of the microbit display. 0s are represented by a space and other pixel values by their intensity. For example, the following program:
 
 ```python
 from microbit_sbut import *
@@ -150,13 +152,13 @@ As with the physical microbit, showing a string with runs of repeated characters
 
 In addition to the implementation of the `microbit` classes and global functions such as `sleep`, `microbit_stub` extends the API with a `State` class and a single `state` instance. This represents the state of buttons, pins, and accelerometer x, y and z values. For example, reading from a pin involves reading from a corresponding value of the `state` object. Writing to a pin, changes a corresponding value of the `state` object. See the next section for information on how to use the `state` instance to simulate state changes.
 
-Accelerometer gestures are randomly generated, as are compass headings and field strengths. They are stored as part of the with the `state` object. Current image state is maintained by the `image` instance and is not stored with the `state` object.
+Accelerometer gestures are randomly generated, as are compass headings and field strengths. They are not stored with the `state` object. Current image state is maintained by the `image` instance and is not stored with the `state` object.
 
 ## Emulating and changing microbit state (input/output)
 
 The "state" of a physical microbit is determined by button presses, inputs and output to pins etc. The `microbit_stub` does not have these physical inputs and outputs. Instead, internally, the state of the emulated microbit is represented by a dictionary. In the normal case this state representation is loaded from and saved to one or more json files. This internal representation is managed by and manipulated through a `state` object.
 
-It should be stressed that microbit micropython programs can be tested with the `microbit_stub` module without any direct interaction with `state` object. The exposure of the `state` object, and underlying state files, simply opens up the possibility of more extensive testing and simulation of input/output events.
+microbit micropython programs can be tested with the `microbit_stub` module without any direct interaction with `state` object. The exposure of the `state` object, and underlying state files, simply opens up the possibility of more extensive testing and simulation of input/output events.
 
 The initial state is:
 
@@ -195,7 +197,7 @@ The initial state is:
 
 There are entries for: 
 - accelerometer x, y and z values,
-- button A and B (which will be 1 if currently pressed) and to record a counts of button presses, 
+- buttons A and B (which will be 1 if currently pressed) and for counts of button presses, 
 - available pins (0 to 16 and 19 and 20)
 
 By default, the initial state of all of these values is 0 or off.
@@ -203,30 +205,32 @@ By default, the initial state of all of these values is 0 or off.
 In addition, there are entries for:
 
 - microbit `power`. If power is 1, the microbit is on and display output will be printed. If power is 0, there is no output.
-- `state_file` - to specify where to store microbit state and to allow chaining of state files to simulate state changes, e.g. by cycling through a series of state files. The `state_file` entry can be thought of as a pointer to the next state of the microbit, contained in the specified `state_file`.
+- `state_file` - to specify where to persist microbit state and to allow chaining of state files to simulate state changes, e.g. by cycling through a series of state files. The `state_file` entry can be thought of as a pointer to the next state of the microbit, contained in the specified `state_file`.
 
 The `state` object provides controlled access to the representation of state, with validity checking of state changes.
 
 The initial state file is specified in the `microbit_stub_settings.py` config file. This settings file is just a module that the `microbit_stub` module imports. If `microbit_stub_settings.py` cannot be found, the default state file is `microbit_state.json`. If a state file cannot be found or opened, then in-memory representation of state is used and it is not possible to manipulate microbit state from multiple processes.
 
-File input/output errors are silently ignored. That is, failure to open, read from or write to a file is ignored and the module reverts to in-memory operation. This is behaviour that could be configured with relatively minor changes to the module. As an initial release it was considered better to simply revert to something that works in-memory in the event of file access failures. It does mean that users must be aware that incorrect filenames or non-existent files or files with incorrect permissions may result in their tests not behaving as expected.
+File input/output errors are silently ignored. That is, failure to open, read from or write to a file is ignored and the module reverts to in-memory operation. This is behaviour that could be configured with relatively minor changes to the module. However, I thought it better to simply revert to something that works in-memory in the event of file access failures. It does mean that users must be aware that incorrect filenames or non-existent files or files with incorrect permissions may result in their tests not behaving as expected.
 
 State is dumped to file after any state change (including on reset).
 
-State is loaded from file on initialisation of the module, on wake up from a sleep (to simulate events occuring during the passing of time0, and before a state change is dumped (to include any other intervening state changes).
+State is loaded from file on initialisation of the module, on wake up from a sleep (to simulate events occuring during the passing of time), and before a state change is dumped (to include any intervening state changes by other processes).
 
 There is no concurrency control on state file access because:
 
-1. File locking is notoriously difficult to do cross platform and in any case is error-prone
-2. It is unnecessary. The implication of conflicting concurrent access is that a state change could be missed. This is the same as missing a button press. Such missed updates are "normal" behaviour for a microbit.
+1. File locking is notoriously difficult to do cross platform and, in any case, is error-prone
+2. It is unnecessary. Conflicting concurrent access is results in missed state changes. This is the same as missing a button press. Such missed updates are "normal" behaviour for a microbit.
+
+The `State.dump` and `State.load` methods are the places to look if you with to change this behaviour.
 
 There are essentially three ways to simulate state changes:
 
-- add `state` object method calls to a microbit program - this will work but has the disadvantage that the program is no longer a standard microbit progam and any code invoking `state` methods must be removed or commented out before uploading to the microbit
-- use separate program(s) to invoke `state` object methods - i.e. run the microbit program and one or more state changing programs that all operate on the same underlaying state file(s). An example of this approach is to run the `happysad.py` program in one terminal and the `pressbutton.py` program in another terminal using the same configuration. The pressbutton program should cause the happysad progarm to alternate between happy and sad faces.
+- add `state` object method calls to a microbit program. This will work but has the disadvantage that the program is no longer a standard microbit progam and any code invoking `state` methods must be removed or commented out before uploading to the microbit
+- use separate program(s) to invoke `state` object methods. That is, run the microbit program and one or more state changing programs that all operate on the same underlaying state file(s). An example of this approach is to run the `happysad.py` program in one terminal and the `pressbutton.py` program in another terminal using the same configuration. The pressbutton program should cause the happysad program to alternate between happy and sad faces.
 - chain state files to simulate state changes. An example of this approach is to configure the initial state file to be `microbit_state_00.json` or `microbit_state_01.json`. In `microbit_state_00.json`, the value for `button_a` is 0 and the value for `state_file` is `microbit_state_01.json`. In `microbit_state_01.json`, the value for `button_a` is 1 and the value for `state_file` is `microbit_state_00.json`. Using this configuration has the effect of alternating between each state file and, therefore, alternating between `button_a` value 1 (pressed) and 0 (not pressed).
 
-This section may appear complex, so I stress two points:
+This section may appear complex. If it does, remember:
 
 1. program testing can be done without the above manipulations of state (it is additional functionality)
 2. the explanations may become clearer by inspecting and running the programs provide in the distribution (and by more documentation that may be provided at a later date, if I get time!)
