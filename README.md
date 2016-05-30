@@ -11,8 +11,6 @@ See: https://github.com/bbcmicrobit/micropython for the microbit micropython pro
 
 The aim of this project is to provide an implementation of the [microbit micropython API](https://microbit-micropython.readthedocs.io/en/latest/microbit_micropython_api.html "microbit API") that can be used to test a microbit micropython program without having to have a physcial microbit connected. This is similar to the in-browser microbit emulations for other programming languages provided at http://microbit.co.uk/.
 
-The motivation is to provide an easy way to test microbit micropython programs. 
-
 If a student develops using the Web based Python editor, feedback with respect to bugs in their program is via a Python error message scrolling across the physical microbit screen. These are quite difficult to read and could become a barrier to development. Development in Python is likely to lead to simple syntax errors (indentation etc.) that only become apparent when an error message is displayed on the microbit screen. The hope is that it will be easier for students to find and correct bugs if they have more readable error output.
 
 The offline [mu micropython editor](http://codewith.mu/ "mu") has a REPL shell that, if connected to a microbit, will display error output in the shell and support easier debugging. Even so, there may be some benefit in being able to trace and debug a program without connecting to the physical microbit.
