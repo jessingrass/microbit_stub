@@ -17,7 +17,7 @@ The offline [mu micropython editor](http://codewith.mu/ "mu") has a REPL shell t
 
 This module supports disconnected program development by emulating most of the microbit's functionality (see the "What is emulated" section of this README for more details). Emulation output is text to the console, which means the module can be used in many programming environments. There is no attempt to do graphical emulation. Providing a graphical interface may be something for the future. It would have the advantage of providing an alternative mechanism for manipulating the emulated state (see the section of this README on "Emulating and changing state" for how this is currently done). As it is, the module allows testing of both the syntax and logic of microbit micropython programs.
 
-The name of the module is `microbit_stub` to distinguish it from the official microbit module
+The name of the module is `microbit_stub` to distinguish it from the official microbit module.
 
 The above means that you can take a program written for the `microbit` module and simply change the relevant import statement to import `microbit_stub`. The program can then be tested in a standard Python development environment or at the console. Once the program has been tested it can be copied to the [Web based](https://www.microbit.co.uk/create-code "Web Python") or [mu](http://codewith.mu/ "mu") editor and uploaded to the microbit (after reinstating the `microbit` module import statement). For example, the following Python program developed [in the browser](https://www.microbit.co.uk/create-code "Web Python") or using [mu](http://codewith.mu/ "mu"):
 
@@ -39,7 +39,7 @@ will output a text emulation of scrolling `'hello world!'` in a console window (
 
 Apart from the change of module name, the program runs unchanged in the different environments.
 
-It should be safe to rename this module `microbit` and not cause any conflict with the [Web based](https://www.microbit.co.uk/create-code "Web Python") or [mu](http://codewith.mu/ "mu") editor. On balance, I thought it better to use a different name to distinguish between the two. If you change the name of the `microbit_stub` module to `microbit` (by renaming `microbit_stub.py` to `microbit.py`) then you will not need to change import statements when switching programming environments.
+It should be safe to rename this module `microbit` and not cause any conflict with the [Web based](https://www.microbit.co.uk/create-code "Web Python") or [mu](http://codewith.mu/ "mu") editor. On balance, I thought it better to use a different name to distinguish between the two. If you change the name of the `microbit_stub` module to `microbit` (by renaming `microbit_stub.py` to `microbit.py`) then you will not need to change import statements when switching programming environments. The [microbit subdirectory](./microbit) contains programs and related files that take this approach.
 
 ## Usage
 
