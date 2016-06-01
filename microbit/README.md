@@ -1,7 +1,7 @@
 # microbit_stub
 A version of microbit_stub that uses `microbit` as the module name.
 
-The programs and related files here are essentially the same as the [microbit_stub](/casnortheast/microbit_stub/) module. The only difference is that they illustrate naming the module `microbit` as opposed to `microbit_stub`. This means you can use the following import statement:
+The programs and related files here are essentially the same as the [microbit_stub](http://github.com/casnortheast/microbit_stub/) module. The only difference is that they illustrate naming the module `microbit` as opposed to `microbit_stub`. This means you can use the following import statement:
 
 ```python
 from microbit import *
